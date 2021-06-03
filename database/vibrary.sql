@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2021 at 07:32 PM
+-- Generation Time: Jun 03, 2021 at 04:42 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -28,13 +28,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `anggota` (
-  `id` int(11) NOT NULL,
+  `id` varchar(5) NOT NULL,
   `nama` varchar(30) NOT NULL,
-  `tgllahir` date NOT NULL,
-  `jk` varchar(10) NOT NULL,
   `alamat` varchar(50) NOT NULL,
-  `nik` int(11) NOT NULL,
-  `notelp` int(11) NOT NULL
+  `jk` varchar(10) NOT NULL,
+  `tgllahir` date NOT NULL,
+  `notelp` int(11) NOT NULL,
+  `nik` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -44,13 +44,13 @@ CREATE TABLE `anggota` (
 --
 
 CREATE TABLE `buku` (
-  `id` int(11) NOT NULL,
-  `judul` varchar(50) NOT NULL,
-  `pengarang` varchar(30) NOT NULL,
-  `penerbit` varchar(30) NOT NULL,
-  `thnterbit` int(11) NOT NULL,
+  `id` varchar(6) NOT NULL,
+  `judul` varchar(30) NOT NULL,
+  `pengarang` varchar(50) NOT NULL,
+  `penerbit` varchar(50) NOT NULL,
+  `tahun` int(11) NOT NULL,
   `isbn` int(11) NOT NULL,
-  `noKat` int(11) NOT NULL
+  `idKat` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -60,8 +60,8 @@ CREATE TABLE `buku` (
 --
 
 CREATE TABLE `kategori` (
-  `noKat` int(11) NOT NULL,
-  `jenis` varchar(30) NOT NULL,
+  `idKat` varchar(4) NOT NULL,
+  `jenis` varchar(20) NOT NULL,
   `noRak` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -72,15 +72,15 @@ CREATE TABLE `kategori` (
 --
 
 CREATE TABLE `peminjaman` (
-  `kodePinjam` varchar(10) NOT NULL,
-  `idPetugas` int(11) NOT NULL,
-  `idAnggota` int(11) NOT NULL,
-  `idBuku` int(11) NOT NULL,
+  `idPinjam` varchar(6) NOT NULL,
+  `idAnggota` varchar(6) NOT NULL,
+  `idBuku` varchar(6) NOT NULL,
+  `idPetugas` varchar(6) NOT NULL,
   `tglPinjam` date NOT NULL DEFAULT current_timestamp(),
   `tglKembali` date NOT NULL,
-  `status` varchar(20) NOT NULL,
+  `status` varchar(10) NOT NULL,
   `terlambat` int(11) NOT NULL,
-  `denda` int(11) NOT NULL
+  `denda` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -90,10 +90,10 @@ CREATE TABLE `peminjaman` (
 --
 
 CREATE TABLE `petugas` (
-  `id` int(11) NOT NULL,
+  `id` varchar(6) NOT NULL,
   `nama` varchar(30) NOT NULL,
-  `tgllahir` date NOT NULL,
   `alamat` varchar(50) NOT NULL,
+  `tgllahir` date NOT NULL,
   `notelp` int(11) NOT NULL,
   `password` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -113,19 +113,19 @@ ALTER TABLE `anggota`
 --
 ALTER TABLE `buku`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `noKat` (`noKat`);
+  ADD KEY `idKat` (`idKat`);
 
 --
 -- Indexes for table `kategori`
 --
 ALTER TABLE `kategori`
-  ADD PRIMARY KEY (`noKat`);
+  ADD PRIMARY KEY (`idKat`);
 
 --
 -- Indexes for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  ADD PRIMARY KEY (`kodePinjam`),
+  ADD PRIMARY KEY (`idPinjam`),
   ADD KEY `idAnggota` (`idAnggota`),
   ADD KEY `idBuku` (`idBuku`),
   ADD KEY `idPetugas` (`idPetugas`);
@@ -137,34 +137,6 @@ ALTER TABLE `petugas`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `anggota`
---
-ALTER TABLE `anggota`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `buku`
---
-ALTER TABLE `buku`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `kategori`
---
-ALTER TABLE `kategori`
-  MODIFY `noKat` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `petugas`
---
-ALTER TABLE `petugas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Constraints for dumped tables
 --
 
@@ -172,7 +144,7 @@ ALTER TABLE `petugas`
 -- Constraints for table `buku`
 --
 ALTER TABLE `buku`
-  ADD CONSTRAINT `buku_ibfk_1` FOREIGN KEY (`noKat`) REFERENCES `kategori` (`noKat`);
+  ADD CONSTRAINT `buku_ibfk_1` FOREIGN KEY (`idKat`) REFERENCES `kategori` (`idKat`);
 
 --
 -- Constraints for table `peminjaman`
