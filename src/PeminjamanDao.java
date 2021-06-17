@@ -25,7 +25,7 @@ public class PeminjamanDao {
     }
     
     public void create(Peminjaman pinjam) throws SQLException{
-        String sql="insert into peminjaman values(?,?,?,?,?,?,?,?,?)";
+        String sql="insert into peminjaman values(?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, pinjam.getIdPinjam());
         ps.setString(2, pinjam.getIdAnggota());
@@ -33,45 +33,40 @@ public class PeminjamanDao {
         ps.setString(4, pinjam.getIdPetugas());
         ps.setString(5, pinjam.getTglPinjam());
         ps.setString(6, pinjam.getTglKembali());
-        ps.setString(7, pinjam.getStatus());
-        ps.setInt(8, pinjam.getTerlambat());
-        ps.setDouble(9, pinjam.getDenda());
+        ps.setString(7, pinjam.getTgldikembalikan());
+        ps.setString(8, pinjam.getStatus());
+        ps.setInt(9, pinjam.getTerlambat());
+        ps.setDouble(10, pinjam.getDenda());
         ps.executeUpdate();
     }
     
     public void update(Peminjaman pinjam) throws SQLException{
-        String sql="update  peminjaman set tglkembali=?, status=?, terlambat=?, denda=? "
-                + "where idPinjam=? and idAnggota=? and idBuku=? and idPetugas=? and tglpinjam=?";
+        String sql="update  peminjaman set tglkembali=?, tgldikembalikan=?, status=?, terlambat=?, denda=? "
+                + "where idPinjam=? and idAnggota=? and idBuku=? and tglpinjam=?";
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(5, pinjam.getIdPinjam());
-        ps.setString(6, pinjam.getIdAnggota());
-        ps.setString(7, pinjam.getIdBuku());
-        ps.setString(8, pinjam.getIdPetugas());
+        ps.setString(6, pinjam.getIdPinjam());
+        ps.setString(7, pinjam.getIdAnggota());
+        ps.setString(8, pinjam.getIdBuku());
         ps.setString(9, pinjam.getTglPinjam());
         ps.setString(1, pinjam.getTglKembali());
-        ps.setString(2, pinjam.getStatus());
-        ps.setInt(3, pinjam.getTerlambat());
-        ps.setDouble(4, pinjam.getDenda());
+        ps.setString(2, pinjam.getTgldikembalikan());
+        ps.setString(3, pinjam.getStatus());
+        ps.setInt(4, pinjam.getTerlambat());
+        ps.setDouble(5, pinjam.getDenda());
         ps.executeUpdate();
     }
     
-    public void delete(String idPinjam, String idAnggota, String idBuku, String idPetugas, String tglPinjam) throws SQLException {
-        String sql = "delete from peminjaman where idpinjam and idanggota=? and idbuku=? and tglpinjam=?";
+    public void delete(String idPinjam) throws SQLException {
+        String sql = "delete from peminjaman where idpinjam=?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, idPinjam);
-        ps.setString(2, idAnggota);
-        ps.setString(3, idBuku);
-        ps.setString(4, tglPinjam);
         ps.executeUpdate();
     }
     
-    public Peminjaman getPeminjaman (String idPinjam, String idAnggota, String idBuku, String idPetugas, String tglPinjam) throws SQLException {
-        String sql = "select * from peminjaman where idAnggota=? and idBuku=? and idPetugas and tglpinjam=?";
+    public Peminjaman getPeminjaman (String idPinjam) throws SQLException {
+        String sql = "select * from peminjaman where idPinjam=?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, idPinjam);
-        ps.setString(2, idAnggota);
-        ps.setString(3, idBuku);
-        ps.setString(4, tglPinjam);
         Peminjaman pinjam = null;
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
@@ -82,9 +77,10 @@ public class PeminjamanDao {
             pinjam.setIdPetugas(rs.getString(4));
             pinjam.setTglPinjam(rs.getString(5));
             pinjam.setTglKembali(rs.getString(6));
-            pinjam.setStatus(rs.getString(7));
-            pinjam.setTerlambat(rs.getInt(8));
-            pinjam.setDenda(rs.getDouble(9));
+            pinjam.setTgldikembalikan(rs.getString(7));
+            pinjam.setStatus(rs.getString(8));
+            pinjam.setTerlambat(rs.getInt(9));
+            pinjam.setDenda(rs.getDouble(10));
         }
         return pinjam;
     }
@@ -102,15 +98,16 @@ public class PeminjamanDao {
             pinjam.setIdPetugas(rs.getString(4));
             pinjam.setTglPinjam(rs.getString(5));
             pinjam.setTglKembali(rs.getString(6));
-            pinjam.setStatus(rs.getString(7));
-            pinjam.setTerlambat(rs.getInt(8));
-            pinjam.setDenda(rs.getDouble(9));
+            pinjam.setTgldikembalikan(rs.getString(7));
+            pinjam.setStatus(rs.getString(8));
+            pinjam.setTerlambat(rs.getInt(9));
+            pinjam.setDenda(rs.getDouble(10));
             list.add(pinjam);
         }
         return list;
     }
     
-    /*public int getKurangTanggal(Connection con, String tgl1, String tgl2) throws SQLException{
+    public int getKurangTanggal(Connection con, String tgl1, String tgl2) throws SQLException{
         String sql = "select datediff(?,?) as hasil";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, tgl1);
@@ -120,5 +117,16 @@ public class PeminjamanDao {
             return rs.getInt(1);
         }
         return 0;
-    }*/
+    }
+    
+    public String getTambahTanggal(Connection con, String tgl) throws SQLException{
+        String sql = "select date_add(?, interval 1 week) as hasil";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, tgl);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            return rs.getString(1);
+        }
+        return tgl;
+    }
 }

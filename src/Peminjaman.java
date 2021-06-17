@@ -15,6 +15,7 @@ public class Peminjaman {
     private String idPetugas;
     private String tglPinjam;
     private String tglKembali;
+    private String tgldikembalikan;
     private String status;
     private int terlambat;
     private double denda;
@@ -89,6 +90,14 @@ public class Peminjaman {
 
     public void setDenda(double denda) {
         this.denda = denda;
+    }
+
+    public String getTgldikembalikan() {
+        return tgldikembalikan;
+    }
+
+    public void setTgldikembalikan(String tgldikembalikan) {
+        this.tgldikembalikan = tgldikembalikan;
     }
 
     

@@ -15,13 +15,13 @@ public class Buku {
     private String penerbit;
     private int tahun;
     private int isbn;
-    private int idKat;
+    private String Kat;
 
     public String getId() {
         return id;
     }
 
-    public void setId(String kode) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -65,12 +65,12 @@ public class Buku {
         this.isbn = isbn;
     }
 
-    public int getIdKat() {
-        return idKat;
+    public String getKat() {
+        return Kat;
     }
 
-    public void setIdKat(int idKat) {
-        this.idKat = idKat;
+    public void setKat(String Kat) {
+        this.Kat = Kat;
     }
 
     

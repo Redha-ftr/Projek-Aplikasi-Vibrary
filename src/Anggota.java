@@ -13,7 +13,7 @@ public class Anggota {
     private String nama;
     private String alamat;
     private String jk;
-    private String tglLahir;
+    private String ttl;
     private int notelp;
     private int nik;
 
@@ -50,11 +50,11 @@ public class Anggota {
     }
 
     public String getTglLahir() {
-        return tglLahir;
+        return ttl;
     }
 
-    public void setTglLahir(String tgllahir) {
-        this.tglLahir = tglLahir;
+    public void setTglLahir(String ttl) {
+        this.ttl = ttl;
     }
 
     public int getNotelp() {

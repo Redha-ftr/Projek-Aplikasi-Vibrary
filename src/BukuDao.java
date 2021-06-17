@@ -33,13 +33,13 @@ public class BukuDao {
         ps.setString(4, buku.getPenerbit());
         ps.setInt(5, buku.getTahun());
         ps.setInt(6, buku.getIsbn());
-        ps.setInt(7, buku.getIdKat());
+        ps.setString(7, buku.getKat());
         ps.executeUpdate();
     }
     
     public void update(Buku buku) throws SQLException{
         String sql="update  buku set judul=?, pengarang=?, penerbit=?, tahun=?, "
-                +"isbn=?, idKat=?"
+                +"isbn=?, Kat=?"
                 +"where id=?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(7, buku.getId());
@@ -48,7 +48,7 @@ public class BukuDao {
         ps.setString(3, buku.getPenerbit());
         ps.setInt(4, buku.getTahun());
         ps.setInt(5, buku.getIsbn());
-        ps.setInt(6, buku.getIdKat());
+        ps.setString(6, buku.getKat());
         ps.executeUpdate();
     }
     
@@ -73,7 +73,7 @@ public class BukuDao {
             buku.setPenerbit(rs.getString(4));
             buku.setTahun(rs.getInt(5));
             buku.setIsbn(rs.getInt(6));
-            buku.setIdKat(rs.getInt(7));
+            buku.setKat(rs.getString(7));
         }
         return buku;
     }
@@ -92,7 +92,7 @@ public class BukuDao {
             buku.setPenerbit(rs.getString(4));
             buku.setTahun(rs.getInt(5));
             buku.setIsbn(rs.getInt(6));
-            buku.setIdKat(rs.getInt(7));
+            buku.setKat(rs.getString(7));
             list.add(buku);
         }
         return list;

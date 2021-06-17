@@ -14,6 +14,7 @@ public class Petugas {
     private String alamat;
     private String jk;
     private int notelp;
+    private int nik;
     private String password;
 
     public String getId() {
@@ -54,6 +55,14 @@ public class Petugas {
 
     public void setNotelp(int notelp) {
         this.notelp = notelp;
+    }
+
+    public int getNik() {
+        return nik;
+    }
+
+    public void setNik(int nik) {
+        this.nik = nik;
     }
 
     public String getPassword() {

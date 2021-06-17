@@ -17,10 +17,11 @@ import java.util.List;
  * @author EED
  */
 public class AnggotaDao {
+    Koneksi k;
     Connection con;
     
     public AnggotaDao(){
-        Koneksi k = new Koneksi();
+        k = new Koneksi();
         con = k.getConnection();
     }
     
@@ -29,26 +30,26 @@ public class AnggotaDao {
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, anggota.getId());
         ps.setString(2, anggota.getNama());
-        ps.setString(3, anggota.getAlamat());
+        ps.setString(3, anggota.getTglLahir());
         ps.setString(4, anggota.getJk());
-        ps.setString(5, anggota.getTglLahir());
-        ps.setInt(6, anggota.getNotelp());
-        ps.setInt(7, anggota.getNik());
+        ps.setString(5, anggota.getAlamat());
+        ps.setInt(6, anggota.getNik());
+        ps.setInt(7, anggota.getNotelp());
         ps.executeUpdate();
     }
     
     public void update(Anggota anggota) throws SQLException{
-        String sql="update  anggota set nama=?, alamat=?, jekel=?, "
-                +"tgllahir=?, notelp=?, nik=? "
+        String sql="update  anggota set nama=?, tgllahir=?, jk=?, "
+                +"alamat=?, nik=?, notelp=? "
                 +"where id=?";
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(4, anggota.getId());
+        ps.setString(7, anggota.getId());
         ps.setString(1, anggota.getNama());
-        ps.setString(2, anggota.getAlamat());
+        ps.setString(2, anggota.getTglLahir());
         ps.setString(3, anggota.getJk());
-        ps.setString(5, anggota.getTglLahir());
+        ps.setString(4, anggota.getAlamat());
+        ps.setInt(5, anggota.getNik());
         ps.setInt(6, anggota.getNotelp());
-        ps.setInt(7, anggota.getNik());
         ps.executeUpdate();
     }
     
@@ -59,21 +60,21 @@ public class AnggotaDao {
         ps.executeUpdate();
     }
     
-    public Anggota getAnggota(String kode) throws SQLException {
-        String sql = "select * from anggota where kodeanggota=?";
+    public Anggota getAnggota(String id) throws SQLException {
+        String sql = "select * from anggota where id=?";
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, kode);
+        ps.setString(1, id);
         Anggota anggota = null;
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             anggota = new Anggota();
             anggota.setId(rs.getString(1));
             anggota.setNama(rs.getString(2));
-            anggota.setAlamat(rs.getString(3));
+            anggota.setTglLahir(rs.getString(3));
             anggota.setJk(rs.getString(4));
-            anggota.setTglLahir(rs.getString(5));
-            anggota.setNotelp(rs.getInt(6));
-            anggota.setNik(rs.getInt(7));
+            anggota.setAlamat(rs.getString(5));
+            anggota.setNik(rs.getInt(6));
+            anggota.setNotelp(rs.getInt(7));
         }
         return anggota;
     }
@@ -90,9 +91,10 @@ public class AnggotaDao {
             anggota.setNama(rs.getString(2));
             anggota.setAlamat(rs.getString(3));
             anggota.setJk(rs.getString(4));
-             anggota.setTglLahir(rs.getString(5));
-            anggota.setNotelp(rs.getInt(6));
-            anggota.setNik(rs.getInt(7));
+            anggota.setTglLahir(rs.getString(5));
+            anggota.setNik(rs.getInt(6));
+            anggota.setNotelp(rs.getInt(7));
+            
             list.add(anggota);
         }
         return list;
