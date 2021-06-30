@@ -115,6 +115,39 @@ public class PeminjamanController {
         view.getDenda_txt().setText("");
     }
 
+    public void search() {
+        String id = view.getCari_txt().getText();
+
+        try {
+            pinjam = dao.getPeminjaman(id);
+            String idanggota = pinjam.getIdAnggota();
+            String idbuku = pinjam.getIdBuku();
+            if (buku != null) {
+                BukuDao bukuDao = new BukuDao();
+                Buku buku = bukuDao.getBuku(idbuku);
+                AnggotaDao anggotaDao = new AnggotaDao();
+                Anggota anggota = anggotaDao.getAnggota(idanggota);
+
+                view.getIdpinjam_txt().setText(pinjam.getIdPinjam());
+                view.getIdpetugas_txt().setText(pinjam.getIdPetugas());
+                view.getIdanggota_txt().setText(pinjam.getIdAnggota());
+                view.getNama_txt().setText(anggota.getNama());
+                view.getIdbuku_txt().setText(pinjam.getIdBuku());
+                view.getJudul_txt().setText(buku.getJudul());
+                view.getTglpinjam_txt().setText(pinjam.getTglPinjam());
+                view.getTglkembali_txt().setText(pinjam.getTglKembali());
+                view.getTgldikembalikan_txt().setText(pinjam.getTgldikembalikan());
+                view.getStatus().setSelectedItem(pinjam.getStatus());
+                view.getTerlambat_txt().setText(pinjam.getTerlambat() + "");
+                view.getDenda_txt().setText(pinjam.getDenda() + "");
+            } else {
+                JOptionPane.showMessageDialog(null, "Data Kosong");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Data Kosong");
+        }
+    }
+    
     public void isiTable() {
         try {
             DefaultTableModel model = (DefaultTableModel) view.getTabelPeminjaman().getModel();
