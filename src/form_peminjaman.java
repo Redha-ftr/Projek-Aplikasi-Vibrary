@@ -418,7 +418,7 @@ public class form_peminjaman extends javax.swing.JFrame {
 
     private void tombolcariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolcariMouseClicked
         // TODO add your handling code here:
-        //controller.search();
+        controller.search();
     }//GEN-LAST:event_tombolcariMouseClicked
 
     private void tombolcariMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolcariMouseEntered
