@@ -146,15 +146,10 @@ public class form_login extends javax.swing.JFrame {
     
     public void Login() throws SQLException {
         String kode = id.getText();
-        /*if (id.getText().equals("admin") && password.getText().equals("admin")) {
-            String sql = "insert into login values(?,?)";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, id.getText());
-            ps.setString(2, password.getText());
-            ps.executeUpdate();
+        if (id.getText().equals("admin") && password.getText().equals("admin")) {
             new form_home().setVisible(true);
-            this.dispose();
-        }*/  
+            this.dispose();;
+        }else{  
             try {
                 data = dao.getPetugas(kode);
                 if (data != null) {
@@ -176,7 +171,7 @@ public class form_login extends javax.swing.JFrame {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
-        
+        }
     }
 
 
