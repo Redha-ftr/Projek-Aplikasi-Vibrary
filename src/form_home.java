@@ -157,7 +157,9 @@ public class form_home extends javax.swing.JFrame {
     }
   
     public void cek() throws SQLException{
-        if(login.getLogin()!="admin"){
+        login = new form_login();
+        String idpetugas = login.getLogin();
+        if(idpetugas!="admin"){
             user.hide();
         }
     }
