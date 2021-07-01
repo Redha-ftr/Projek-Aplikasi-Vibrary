@@ -290,9 +290,12 @@ public class form_petugas extends javax.swing.JFrame {
     }//GEN-LAST:event_tombolprosesMouseExited
 
     private void tombolhapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolhapusMouseClicked
-        controller.delete();
-        controller.isiTable();
-        controller.clear();
+        int opsi = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus data?", null, JOptionPane.YES_NO_OPTION);
+        if (opsi == JOptionPane.YES_OPTION) {
+            controller.delete();
+            controller.isiTable();
+            controller.clear();
+        }
     }//GEN-LAST:event_tombolhapusMouseClicked
 
     private void tombolhapusMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolhapusMouseEntered
