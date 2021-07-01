@@ -319,14 +319,18 @@ public class form_buku extends javax.swing.JFrame {
     }//GEN-LAST:event_kat_cbActionPerformed
 
     private void tombolhapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolhapusMouseClicked
-        controller.delete();
-        controller.isiTable();
-        controller.clear();
+        int opsi = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus data?", null, JOptionPane.YES_NO_OPTION);
+        if (opsi == JOptionPane.YES_OPTION) {
+            controller.delete();
+            controller.isiTable();
+            controller.clear();
+        }
     }//GEN-LAST:event_tombolhapusMouseClicked
 
     private void tombolcariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolcariMouseClicked
         // TODO add your handling code here:
         controller.search();
+        cari_txt.setText("");
     }//GEN-LAST:event_tombolcariMouseClicked
 
     private void tombolcariMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolcariMouseEntered
