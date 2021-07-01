@@ -321,9 +321,12 @@ public class form_anggota extends javax.swing.JFrame {
     }//GEN-LAST:event_rb_lkActionPerformed
 
     private void tombolhapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolhapusMouseClicked
-        controller.delete();
-        controller.isiTable();
-        controller.clear();
+        int opsi = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus data?", null, JOptionPane.YES_NO_OPTION);
+        if (opsi == JOptionPane.YES_OPTION) {
+            controller.delete();
+            controller.isiTable();
+            controller.clear();
+        }
     }//GEN-LAST:event_tombolhapusMouseClicked
 
     private void alamat_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alamat_txtActionPerformed
@@ -353,6 +356,7 @@ public class form_anggota extends javax.swing.JFrame {
     private void tombolcariMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolcariMouseClicked
         // TODO add your handling code here:
         controller.search();
+        cari_txt.setText("");
     }//GEN-LAST:event_tombolcariMouseClicked
 
     private void tombolcariMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tombolcariMouseEntered
