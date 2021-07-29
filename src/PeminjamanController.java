@@ -98,23 +98,6 @@ public class PeminjamanController {
         this.clear();
     }
 
-    public void clear() throws SQLException {
-        String tglkembali = dao.getTambahTanggal(con, tglSekarang);
-        
-        view.getIdpinjam_txt().setText("");
-        view.getIdpetugas_txt().setText(login.getLogin());
-        view.getIdanggota_txt().setText("");
-        view.getNama_txt().setText("");
-        view.getIdbuku_txt().setText("");
-        view.getJudul_txt().setText("");
-        view.getTglpinjam_txt().setText(tglSekarang);
-        view.getTglkembali_txt().setText(dao.getTambahTanggal(con, tglSekarang));
-        view.getTgldikembalikan_txt().setText("");
-        view.getStatus().setSelectedItem("Pinjam");
-        view.getTerlambat_txt().setText("");
-        view.getDenda_txt().setText("");
-    }
-
     public void search() {
         String id = view.getCari_txt().getText();
 
@@ -147,7 +130,24 @@ public class PeminjamanController {
             JOptionPane.showMessageDialog(null, "Data Kosong");
         }
     }
-    
+
+    public void clear() throws SQLException {
+        String tglkembali = dao.getTambahTanggal(con, tglSekarang);
+
+        view.getIdpinjam_txt().setText("");
+        view.getIdpetugas_txt().setText(login.getLogin());
+        view.getIdanggota_txt().setText("");
+        view.getNama_txt().setText("");
+        view.getIdbuku_txt().setText("");
+        view.getJudul_txt().setText("");
+        view.getTglpinjam_txt().setText(tglSekarang);
+        view.getTglkembali_txt().setText(dao.getTambahTanggal(con, tglSekarang));
+        view.getTgldikembalikan_txt().setText(tglSekarang);
+        view.getStatus().setSelectedItem("Pinjam");
+        view.getTerlambat_txt().setText("0");
+        view.getDenda_txt().setText("0");
+    }
+
     public void isiTable() {
         try {
             DefaultTableModel model = (DefaultTableModel) view.getTabelPeminjaman().getModel();
@@ -210,7 +210,7 @@ public class PeminjamanController {
                 String tgldikembalikan = view.getTgldikembalikan_txt().getText();
                 int terlambat = dao.getKurangTanggal(con, tgldikembalikan, tglkembali);
                 double denda = 0;
-                if(terlambat>=0){
+                if (terlambat >= 0) {
                     denda = terlambat * 500;
                 } else {
                     denda = 0;
@@ -230,7 +230,24 @@ public class PeminjamanController {
             Logger.getLogger(PeminjamanController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public int terlambat(String tglkembali, String tgldikembalikan) throws SQLException {
+        int hari = dao.getKurangTanggal(con, tgldikembalikan, tglkembali);
+        if (hari <= 0) {
+            return 0;
+        } else {
+            return hari;
+        }
+    }
+
+    public double denda(int terlambat) {
+        if (terlambat >= 0) {
+            return terlambat * 500;
+        } else {
+            return 0;
+        }
+    }
+
     public void OnKeyPressTglPinjam() throws SQLException {
         String tglpinjam = view.getTglpinjam_txt().getText();
         String tglkembali = dao.getTambahTanggal(con, tglpinjam);
@@ -269,6 +286,7 @@ public class PeminjamanController {
             AnggotaDao anggotaDao = new AnggotaDao();
             Anggota anggota = anggotaDao.getAnggota(idanggota);
             Peminjaman pinjam = dao.getPeminjaman(idpinjam);
+            int telat = terlambat(pinjam.getTglKembali(), tglSekarang);
 
             view.getIdpinjam_txt().setText(pinjam.getIdPinjam());
             view.getIdpetugas_txt().setText(login.getLogin());
@@ -278,10 +296,16 @@ public class PeminjamanController {
             view.getJudul_txt().setText(buku.getJudul());
             view.getTglpinjam_txt().setText(pinjam.getTglPinjam());
             view.getTglkembali_txt().setText(pinjam.getTglKembali());
-            view.getTgldikembalikan_txt().setText(pinjam.getTgldikembalikan());
             view.getStatus().setSelectedItem(pinjam.getStatus());
-            view.getTerlambat_txt().setText(pinjam.getTerlambat() + "");
-            view.getDenda_txt().setText(pinjam.getDenda() + "");
+            if (pinjam.getStatus().equals("Pinjam")) {
+                view.getTgldikembalikan_txt().setText(tglSekarang);
+                view.getTerlambat_txt().setText(telat + "");
+                view.getDenda_txt().setText(denda(telat) + "");
+            } else {
+                view.getTgldikembalikan_txt().setText(pinjam.getTgldikembalikan());
+                view.getTerlambat_txt().setText(pinjam.getTerlambat() + "");
+                view.getDenda_txt().setText(pinjam.getDenda() + "");
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(PeminjamanController.class.getName()).log(Level.SEVERE, null, ex);
